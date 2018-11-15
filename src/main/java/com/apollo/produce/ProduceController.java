@@ -37,7 +37,6 @@ public class ProduceController {
 
     @GetMapping("/sendtopic1/{jsonStr}")
     public void sendtopic1(@PathVariable String jsonStr){
-        producerTemplate.setDefaultEndpointUri(direct);
-        producerTemplate.sendBody(jsonStr);
+        producerTemplate.sendBody(direct,jsonStr);
     }
 }
