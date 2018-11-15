@@ -16,13 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProduceController {
 
     // activemq://queue
-    @Value("${apollo.queue}")
-    private String queue;
+
+    private String queue="activemq:queue:testqueue";
+
+    private String topic="activemq:topic:testtopic";
     @Autowired
     private ProducerTemplate producerTemplate;
 
     @GetMapping("/send/{jsonStr}")
     public void send(@PathVariable String jsonStr){
         producerTemplate.sendBody(queue,jsonStr);
+    }
+
+    @GetMapping("/sendtopic/{jsonStr}")
+    public void sendtopic(@PathVariable String jsonStr){
+        producerTemplate.sendBody(topic,jsonStr);
     }
 }
