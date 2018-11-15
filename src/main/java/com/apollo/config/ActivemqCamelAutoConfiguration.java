@@ -1,5 +1,6 @@
 package com.apollo.config;
 
+import com.apollo.stomp.StompComponent;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.pool.PooledConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,12 +23,21 @@ public class ActivemqCamelAutoConfiguration {
     private String user;
 
 
-    @Bean
-    PooledConnectionFactory mqConnectionFactory(){
+//    @Bean
+//    PooledConnectionFactory mqConnectionFactory(){
+//
+//        PooledConnectionFactory pooledConnectionFactory = new PooledConnectionFactory(new ActiveMQConnectionFactory(user,psw,url));
+//
+//        return pooledConnectionFactory;
+//    }
 
-        PooledConnectionFactory pooledConnectionFactory = new PooledConnectionFactory(new ActiveMQConnectionFactory(user,psw,url));
-
-        return pooledConnectionFactory;
+    @Bean(name = "stompa")
+    public StompComponent convertStompComponent() {
+        StompComponent stompComponent = new StompComponent();
+        stompComponent.setBrokerURL(url);
+        stompComponent.setLogin(user);
+        stompComponent.setPasscode(psw);
+        return stompComponent;
     }
 
 }
