@@ -1,0 +1,2 @@
+# springboot_apollo
+springboot集成apache apollo消息中间件，通过camel路由，前端通过JavaScript，stomp订阅apollo的消息
