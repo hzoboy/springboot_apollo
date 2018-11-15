@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.apache.camel.Message;
 /**
  * @author :zoboy
  * @Description:
@@ -15,21 +15,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProduceController {
 
-    // activemq://queue
+    @Value("${apollo.queue.name}")
+    private String queue;
+    @Value("${apollo.topic.name}")
+    private String topic;
+    @Value("${apollo.direct.name}")
+    private String direct;
 
-    private String queue="activemq:queue:testqueue";
-
-    private String topic="activemq:topic:testtopic";
     @Autowired
     private ProducerTemplate producerTemplate;
 
     @GetMapping("/send/{jsonStr}")
-    public void send(@PathVariable String jsonStr){
+    public void sendqueue(@PathVariable String jsonStr){
         producerTemplate.sendBody(queue,jsonStr);
     }
 
     @GetMapping("/sendtopic/{jsonStr}")
     public void sendtopic(@PathVariable String jsonStr){
         producerTemplate.sendBody(topic,jsonStr);
+    }
+
+    @GetMapping("/sendtopic1/{jsonStr}")
+    public void sendtopic1(@PathVariable String jsonStr){
+        producerTemplate.setDefaultEndpointUri(direct);
+        producerTemplate.sendBody(jsonStr);
     }
 }

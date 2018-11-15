@@ -16,11 +16,13 @@ public class MtqqMessageRouter extends RouteBuilder {
     @Autowired
     ConsumerHandle consumerHandle;
 
-    @Value("${apollo.queue.consumer}")
+    @Value("${apollo.queue.name}")
     private String queue;
-
+    @Value("${apollo.direct.name}")
+    private String direct;
     @Override
     public void configure() throws Exception {
-        from(queue).streamCaching().process(consumerHandle);
+//        from(queue).streamCaching().process(consumerHandle);
+        from(direct).process(consumerHandle).to("stompa:*");
     }
 }
